@@ -10,6 +10,14 @@ class AdamVectorBasicOperations {
 		println "Vector one coordinates are ${vectorOne.coordinates}"
 		println "Vector addition result is ${vectorAddition}"
 		println "Vector scalar result is ${vectorScale}"
+		def vectorThree = new AdamVector(-0.221, 7.437)
+		def vectorFour = new AdamVector(8.813, -1.331, -6.247)
+		def vectorFive = new AdamVector(5.581, -2.136)
+		def vectorSix = new AdamVector(1.996, 3.108, -4.554)
+		println("Magnitude of vector $vectorThree.coordinates is ${magnitude(vectorThree)}")
+		println("Magnitude of vector $vectorFour.coordinates is ${magnitude(vectorFour)}")
+		println("Direction of vector $vectorFive.coordinates is ${direction(vectorFive)}")
+		println("Direction of vector $vectorSix.coordinates is ${direction(vectorSix)}")
 	}
 		
 	static AdamVector add(AdamVector vectorOne, AdamVector vectorTwo) {
@@ -40,8 +48,33 @@ class AdamVectorBasicOperations {
 			return null
 		}
 		def scaledCoordinates = vectorOne.coordinates.collect{it * scalar}
-		vectorOne.coordinates = scaledCoordinates
-		return vectorOne
+		AdamVector result = new AdamVector()
+		result.coordinates = scaledCoordinates
+		return result
+	}
+	
+	static def magnitude(AdamVector vectorOne) {
+		if (!vectorOne.coordinates) {
+			return null
+		}
+		def coordinatesSumOfSquares
+		vectorOne.coordinates.each{ //square and sum coordinates
+			if (coordinatesSumOfSquares != null) {
+				coordinatesSumOfSquares += it * it
+			} else {
+				coordinatesSumOfSquares = it * it
+			}
+		}
+		return Math.sqrt(coordinatesSumOfSquares)
+	}
+	
+	static AdamVector direction(AdamVector vector) {
+		if (!vector.coordinates) {
+			return null
+		}
+		def magnitude = magnitude(vector)
+		AdamVector result = scale(vector, (1/magnitude))
+		return result
 	}
 	
 }

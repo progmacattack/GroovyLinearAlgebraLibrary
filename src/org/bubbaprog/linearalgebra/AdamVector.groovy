@@ -6,6 +6,4 @@ import groovy.transform.Canonical;
 @Canonical
 class AdamVector {
 	double[] coordinates;
-	
-	
 }
